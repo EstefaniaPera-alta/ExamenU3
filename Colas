@@ -1,49 +1,74 @@
 package ColasEx;
-import java.util.Arrays;
+
 import java.util.Scanner;
 
 public class Colas {
-        NodoCola cima;
+        NodoCola cima, fin;
         int tamanio;
-        String []ColaComunes=new String[' ']; 
-        String []ColaVip = new String[' '];
-        int i=1, y=1;
-        public void Insertar(String clientes, int turno)
+        
+        
+        public Colas()
         {
-            
-            if (clientes=="Vip") {
-            ColaVip[i]= clientes+turno;
-            System.out.println("Usuarios");
-            System.out.println("ColaVip:" + ColaVip[i]+"");
-            i++;
+            cima = null;
+            fin = null;
+
+        }
+        public boolean ColaVacia()
+        {
+            if(cima==null)
+            {
+                return true;
             } else
             {
-                System.out.println("Usuarios");
-                ColaComunes[y]= clientes+turno;
-                System.out.println("ColaComunes:" + ColaComunes[y]+"");
-                y++;
+                return false;
             }
-            
-            
+        }
+        public void Insertar(String clientes)
+        {      
+            NodoCola nuevon = new NodoCola();
+            nuevon.elemento = clientes;
+            nuevon.siguiente = null;
+            if (ColaVacia())
+            {
+                cima = nuevon;
+                fin = nuevon;
+            }else
+            {
+                fin.siguiente = nuevon;
+                fin = nuevon;
+                
+            }
+           
+        }
+        public String Extraer()
+        {
+            if (!ColaVacia())
+            {
+                String info = cima.elemento;
+                if(cima == fin)
+                {
+                    cima = null;
+                    fin = null;
+                }else {
+                    cima = cima.siguiente;
+                }
+                return info;
+            }else {
+                return "";
+            }
         }
         public void MostrarCola()
         {
-            
-            System.out.println("ColaVip: "+ Arrays.asList(ColaVip));
-            System.out.println("ColaColumnas: "+ Arrays.asList(ColaComunes)); 
                
+
         } 
         public void PasarAVentanilla()
         {
-            boolean ventanilla1=true, ventanilla2=true, ventanilla3=true;
-            //if(ventanilla1==null)
-            //{
 
-            //}
         }
         public void SalirVentanilla(int sale)
         {
-
+            cima=cima.siguiente;
         }
     
     public static void main(String[] args) {
@@ -51,7 +76,7 @@ public class Colas {
         int opcion;
         int turno=0, sale=0;
         boolean continuar = true;
-        boolean sigue = true;
+        //boolean sigue = true;
         String []clientes= {"Vip","Comun"};
         Colas cola = new Colas();
         System.out.println("Uso de Colas Dinamicas");
@@ -73,11 +98,12 @@ public class Colas {
                         turno++;
                         int numero = (int) (Math.random()*2+0);
                     if (numero ==0)
-                        cola.Insertar(clientes[0], turno);
+                        cola.Insertar(clientes[0]);
                     else 
-                        cola.Insertar(clientes[1], turno);
+                        cola.Insertar(clientes[1]);
                 break;
                 case 2:
+                    cola.Extraer();
                     cola.PasarAVentanilla();
                 break;
                 case 3:
